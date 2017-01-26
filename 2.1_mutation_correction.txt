@@ -1,0 +1,14 @@
+# 2.1) Correct HCT116 somatic mutations on HG38
+
+mkdir 2.1_mutation_correction
+cd 2.1_mutation_correction
+
+# 2.1.1) Variant Calling
+
+# BWA installation
+git clone https://github.com/lh3/bwa.git
+cd bwa
+ln -s /home/rtm/myPrograms/bwa-0.7.15/bwa /home/rtm/bin/bwa
+
+# BWA generating genome index
+bwa index -a bwtsw ~/resources/hg38/star/genome.fa
