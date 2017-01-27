@@ -12,3 +12,10 @@ ln -s /home/rtm/myPrograms/bwa-0.7.15/bwa /home/rtm/bin/bwa
 
 # BWA generating genome index
 bwa index -a bwtsw ~/resources/hg38/star/genome.fa
+
+# BWA mapping
+bwa mem -M -t 16 ~/resources/hg38/star/genome.fa /home/rtm/CY/RawData/P007_48_DMSO/P007_48_DMSO_1.fq.gz /home/rtm/CY/RawData/P007_48_DMSO/P007_48_DMSO_2.fq.gz > HCT116_DMSO_48h.sam
+# -M ensures compatibility with picard
+# -t number of threads
+
+
