@@ -18,5 +18,8 @@ bwa mem -M -t 16 ~/resources/hg38/star/genome.fa /home/rtm/CY/RawData/P007_48_DM
 # -M ensures compatibility with picard
 # -t number of threads
 
-#SAM TO BAM + SORT
+# SAM TO BAM + SORT
 samtools view -Sb HCT116_DMSO_48h.sam |samtools sort - HCT116_DMSO_48h
+
+# broadBundle
+ wget -r 'ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/'
