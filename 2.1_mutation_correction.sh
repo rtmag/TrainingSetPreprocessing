@@ -31,7 +31,8 @@ samtools faidx genome.fa
 java -jar ~/myPrograms/picard/build/libs/picard.jar CreateSequenceDictionary R= genome.fa O= genome.dict
 # Add RG
 java -jar ~/myPrograms/picard/build/libs/picard.jar AddOrReplaceReadGroups INPUT=HCT116_DMSO_48h.bam OUTPUT=HCT116_DMSO_48h_addRG.bam RGID=HNHCCCCXX RGLB= Merged RGPL=illumina RGPU=HNHCCCCXX RGSM=sample1 
-
+# Index
+samtools index HCT116_DMSO_48h_addRG.bam
 
 # ReMapping
 java -Xmx50g -jar ~/myPrograms/GenomeAnalysisTK.jar -T RealignerTargetCreator -R ~/resources/hg38/star/genome.fa \
