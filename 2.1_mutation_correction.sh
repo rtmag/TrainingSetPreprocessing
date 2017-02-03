@@ -38,3 +38,8 @@ samtools index HCT116_DMSO_48h_addRG.bam
 java -Xmx50g -jar ~/myPrograms/GenomeAnalysisTK.jar -T RealignerTargetCreator -R ~/resources/hg38/star/genome.fa \
 -I HCT116_DMSO_48h_addRG.bam -o lane.intervals \
 --known ~/resources/ftp.broadinstitute.org/bundle/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf
+
+# INDEL ReMapping
+java -Xmx4g -jar GenomeAnalysisTK.jar -T IndelRealigner -R ~/resources/hg38/star/genome.fa \
+-I HCT116_DMSO_48h_addRG.bam -targetIntervals lane.intervals \
+--known ~/resources/ftp.broadinstitute.org/bundle/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf -o HCT116_DMSO_48h_addRG_realigned.bam
