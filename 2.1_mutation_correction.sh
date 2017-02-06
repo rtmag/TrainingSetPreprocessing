@@ -45,5 +45,5 @@ java -Xmx50g -jar  ~/myPrograms/GenomeAnalysisTK.jar -T IndelRealigner -R ~/reso
 -known ~/resources/ftp.broadinstitute.org/bundle/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf -o HCT116_DMSO_48h_addRG_realigned.bam
 
 #Base recallibration 
-java -Xmx60g -jar GenomeAnalysisTK.jar -T BaseRecalibrator -R ~/resources/hg38/star/genome.fa -knownSites ~/resources/ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz -I HCT116_DMSO_48h_addRG_realigned.bam -o HCT116_DMSO_48h_recal.table
-java -Xmx60g -jar GenomeAnalysisTK.jar -T PrintReads -R ~/resources/hg38/star/genome.fa -I HCT116_DMSO_48h_addRG_realigned.bam --BSQR HCT116_DMSO_48h_recal.table -o  HCT116_DMSO_48h_addRG_realigned_recalibrated.bam
+java -Xmx60g -jar ~/myPrograms/GenomeAnalysisTK.jar -T BaseRecalibrator -R ~/resources/hg38/star/genome.fa -knownSites ~/resources/ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz -I HCT116_DMSO_48h_addRG_realigned.bam -o HCT116_DMSO_48h_recal.table
+java -Xmx60g -jar ~/myPrograms/GenomeAnalysisTK.jar -T PrintReads -R ~/resources/hg38/star/genome.fa -I HCT116_DMSO_48h_addRG_realigned.bam --BSQR HCT116_DMSO_48h_recal.table -o  HCT116_DMSO_48h_addRG_realigned_recalibrated.bam
