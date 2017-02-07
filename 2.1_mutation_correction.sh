@@ -47,3 +47,6 @@ java -Xmx60g -jar  ~/myPrograms/GenomeAnalysisTK.jar -T IndelRealigner -nct 14 -
 #Base recallibration 
 java -Xmx60g -jar ~/myPrograms/GenomeAnalysisTK.jar -T BaseRecalibrator -nct 14 -R ~/resources/hg38/star/genome.fa -knownSites ~/resources/ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf -I HCT116_DMSO_48h_addRG_realigned.bam -o HCT116_DMSO_48h_recal.table
 java -Xmx60g -jar ~/myPrograms/GenomeAnalysisTK.jar -T PrintReads -nct 14 -R ~/resources/hg38/star/genome.fa -I HCT116_DMSO_48h_addRG_realigned.bam --BQSR HCT116_DMSO_48h_recal.table -o  HCT116_DMSO_48h_addRG_realigned_recalibrated.bam
+
+# Remove duplicates
+java -Xmx60g -jar ~/myPrograms/picard/build/libs/picard.jar MarkDuplicates  VALIDATION_STRINGENCY=LENIENT M=MarkDup_metrics.txt INPUT=HCT116_DMSO_48h_addRG_realigned_recalibrated.bam OUTPUT=HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
