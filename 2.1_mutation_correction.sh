@@ -50,3 +50,9 @@ java -Xmx60g -jar ~/myPrograms/GenomeAnalysisTK.jar -T PrintReads -nct 14 -R ~/r
 
 # Remove duplicates
 java -Xmx60g -jar ~/myPrograms/picard/build/libs/picard.jar MarkDuplicates  VALIDATION_STRINGENCY=LENIENT M=MarkDup_metrics.txt INPUT=HCT116_DMSO_48h_addRG_realigned_recalibrated.bam OUTPUT=HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
+
+#INDEX
+samtools index HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
+
+# Variant calling pileup
+samtools mpileup -ugf ~/resources/hg38/star/genome.fa HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam | bcftools call -vmO z -o HCT116_DMSO_48h.vcf.gz
