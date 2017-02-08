@@ -55,4 +55,4 @@ java -Xmx60g -jar ~/myPrograms/picard/build/libs/picard.jar MarkDuplicates  VALI
 samtools index HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
 
 # Variant calling pileup
-samtools mpileup -ugf ~/resources/hg38/star/genome.fa HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam | bcftools call -vmO z -o HCT116_DMSO_48h.vcf.gz
+~/myPrograms/samtools-1.3.1/samtools mpileup -ugf ~/resources/hg38/star/genome.fa HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam | bcftools call -vmO z -o HCT116_DMSO_48h.vcf.gz
