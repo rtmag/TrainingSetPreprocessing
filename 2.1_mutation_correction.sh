@@ -56,3 +56,10 @@ samtools index HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
 
 # Variant calling pileup
 ~/myPrograms/samtools-1.3.1/samtools mpileup -ugf ~/resources/hg38/star/genome.fa HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam | bcftools call -vmO z -o HCT116_DMSO_48h.vcf.gz
+
+# Correcting fasta
+java -Xmx2g -jar ~/workspace-git/gatk/dist/GenomeAnalysisTK.jar \
+    -R /projects/ps-yeolab/genomes/ensembl/v75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.fa  \
+    -T FastaAlternateReferenceMaker \
+    -o /projects/ps-yeolab/genomes/ensembl/v75/fasta/homo_sapiens/dna/Venter.fasta \
+    --variant /projects/ps-yeolab/genomes/ensembl/v75/variation/vcf/homo_sapiens/Venter.sorted.vcf
