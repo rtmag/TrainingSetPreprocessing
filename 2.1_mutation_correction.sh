@@ -57,9 +57,52 @@ samtools index HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam
 # Variant calling pileup
 ~/myPrograms/samtools-1.3.1/samtools mpileup -ugf ~/resources/hg38/star/genome.fa HCT116_DMSO_48h_addRG_realigned_recalibrated_rmdup.bam | bcftools call -vmO z -o HCT116_DMSO_48h.vcf.gz
 
+# VCF index
+tabix -p vcf HCT116_DMSO_48h.vcf.gz
+
+# Extract SNP and INDELS
+java -jar ~/myPrograms/GenomeAnalysisTK.jar -T SelectVariants \
+-R ~/resources/hg38/star/genome.fa \
+-V HCT116_DMSO_48h.vcf.gz \
+-selectType SNP \
+-o HCT116_DMSO_48h_SNP.vcf.gz 
+
+java -jar ~/myPrograms/GenomeAnalysisTK.jar -T SelectVariants \
+-R ~/resources/hg38/star/genome.fa \
+-V HCT116_DMSO_48h.vcf.gz \
+-selectType INDEL \
+-o HCT116_DMSO_48h_INDEL.vcf.gz 
+
+# Filtering
+
+java -jar ~/myPrograms/GenomeAnalysisTK.jar \
+-T VariantFiltration \
+-R ~/resources/hg38/star/genome.fa \
+-V HCT116_DMSO_48h_SNP.vcf.gz \
+--filterExpression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" \
+--filterName "snp_filter" \
+-o HCT116_DMSO_48h_SNP_filtered.vcf.gz 
+
+java -jar ~/myPrograms/GenomeAnalysisTK.jar \
+-T VariantFiltration \ 
+-R ~/resources/hg38/star/genome.fa \
+-V HCT116_DMSO_48h_INDEL.vcf.gz \ 
+--filterExpression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \ 
+--filterName "indel_filter" \ 
+-o HCT116_DMSO_48h_INDEL_filtered.vcf.gz 
+
+
+
+# Merge
+java -jar GenomeAnalysisTK.jar \
+   -T CombineVariants \
+   -R reference.fasta \
+   --variant input1.vcf \
+   --variant input2.vcf \
+   -o output.vcf
+
 # Correcting fasta
-java -Xmx2g -jar ~/workspace-git/gatk/dist/GenomeAnalysisTK.jar \
-    -R /projects/ps-yeolab/genomes/ensembl/v75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.fa  \
-    -T FastaAlternateReferenceMaker \
-    -o /projects/ps-yeolab/genomes/ensembl/v75/fasta/homo_sapiens/dna/Venter.fasta \
+java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar -T FastaAlternateReferenceMaker \
+    -R ~/resources/hg38/star/genome.fa  \
+    -o /home/rtm/CY/RawData/P007_48_DMSO/HCT116.fasta \
     --variant /projects/ps-yeolab/genomes/ensembl/v75/variation/vcf/homo_sapiens/Venter.sorted.vcf
