@@ -84,25 +84,28 @@ java -jar ~/myPrograms/GenomeAnalysisTK.jar \
 -o HCT116_DMSO_48h_SNP_filtered.vcf.gz 
 
 java -jar ~/myPrograms/GenomeAnalysisTK.jar \
--T VariantFiltration \ 
+-T VariantFiltration \
 -R ~/resources/hg38/star/genome.fa \
--V HCT116_DMSO_48h_INDEL.vcf.gz \ 
---filterExpression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \ 
---filterName "indel_filter" \ 
--o HCT116_DMSO_48h_INDEL_filtered.vcf.gz 
+-V HCT116_DMSO_48h_INDEL.vcf.gz \
+--filterExpression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \
+--filterName "indel_filter" \
+-o HCT116_DMSO_48h_INDEL_filtered.vcf.gz
+
+zcat HCT116_DMSO_48h_SNP_filtered.vcf.gz | grep "PASS" > HCT116_DMSO_48h_SNP_filtered_PASS.vcf
+zcat HCT116_DMSO_48h_INDEL_filtered.vcf.gz | grep "PASS" > HCT116_DMSO_48h_INDEL_filtered_PASS.vcf
 
 
 
 # Merge
-java -jar GenomeAnalysisTK.jar \
-   -T CombineVariants \
-   -R reference.fasta \
-   --variant input1.vcf \
-   --variant input2.vcf \
-   -o output.vcf
+java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar \
+-T CombineVariants \
+-R ~/resources/hg38/star/genome.fa \
+--variant HCT116_DMSO_48h_SNP_filtered_PASS.vcf \
+--variant HCT116_DMSO_48h_INDEL_filtered_PASS.vcf \
+-o HCT116_DMSO_48h_filtered_PASS.vcf
 
 # Correcting fasta
 java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar -T FastaAlternateReferenceMaker \
     -R ~/resources/hg38/star/genome.fa  \
     -o /home/rtm/CY/RawData/P007_48_DMSO/HCT116.fasta \
-    --variant /projects/ps-yeolab/genomes/ensembl/v75/variation/vcf/homo_sapiens/Venter.sorted.vcf
+    --variant HCT116_DMSO_48h_filtered_PASS.vcf
