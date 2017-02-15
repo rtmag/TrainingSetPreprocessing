@@ -91,10 +91,13 @@ java -jar ~/myPrograms/GenomeAnalysisTK.jar \
 --filterName "indel_filter" \
 -o HCT116_DMSO_48h_INDEL_filtered.vcf.gz
 
-zcat HCT116_DMSO_48h_SNP_filtered.vcf.gz | grep "PASS" > HCT116_DMSO_48h_SNP_filtered_PASS.vcf
-zcat HCT116_DMSO_48h_INDEL_filtered.vcf.gz | grep "PASS" > HCT116_DMSO_48h_INDEL_filtered_PASS.vcf
 
+# selecting pass variants
+zcat HCT116_DMSO_48h_SNP_filtered.vcf.gz | grep "#" > HCT116_DMSO_48h_SNP_filtered_PASS.vcf
+zcat HCT116_DMSO_48h_INDEL_filtered.vcf.gz | grep "#" > HCT116_DMSO_48h_INDEL_filtered_PASS.vcf
 
+zcat HCT116_DMSO_48h_SNP_filtered.vcf.gz | grep -v "#" | grep "PASS" >> HCT116_DMSO_48h_SNP_filtered_PASS.vcf
+zcat HCT116_DMSO_48h_INDEL_filtered.vcf.gz | grep -v "#" | grep "PASS" >> HCT116_DMSO_48h_INDEL_filtered_PASS.vcf
 
 # Merge
 java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar \
@@ -102,6 +105,7 @@ java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar \
 -R ~/resources/hg38/star/genome.fa \
 --variant HCT116_DMSO_48h_SNP_filtered_PASS.vcf \
 --variant HCT116_DMSO_48h_INDEL_filtered_PASS.vcf \
+--genotypemergeoption UNIQUIFY \
 -o HCT116_DMSO_48h_filtered_PASS.vcf
 
 # Correcting fasta
