@@ -1,0 +1,2 @@
+#Mapping HCT116 reads to corrected genome using Graphmap
+graphmap align -t 50 -B 100 -r ../../HCT116_corrected/HCT116.fasta -d hct116_pass_combine.fasta -o hct116_correct_pass_alignment.sam
