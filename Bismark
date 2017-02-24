@@ -1,3 +1,9 @@
+
+
+
+#bismark_genome_preparation (in a directory containing only the genome.fasta)
+~/myprograms/Bismark/bismark_genome_preparation ./
+
 #bismark
 ~/myprograms/Bismark/bismark --bowtie2 -D 20 -R 3 --multicore 64 --bam ../HCT116 -1 ./ftpdata.novogene.cn\:2300/sample_H/combine_hct116_WGBS_1.fq.gz -2 ./ftpdata.novogene.cn\:2300/sample_H/combine_hct116_WGBS_2.fq.gz
 
