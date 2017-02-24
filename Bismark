@@ -1,7 +1,7 @@
 
 
 
-
+#----------------------------Using HCT116_corrected_hg38 as reference genome for bismark---------------------------------------
 
 #bismark
 ~/myprograms/Bismark/bismark --bowtie2 --multicore 64 --bam ../HCT116 -1 ./ftpdata.novogene.cn\:2300/sample_H/combine_hct116_WGBS_1.fq.gz -2 ./ftpdata.novogene.cn\:2300/sample_H/combine_hct116_WGBS_2.fq.gz
@@ -18,7 +18,7 @@
 
 
 
-#Using minION reads as reference genome for bismark--------------------------------------------------
+#----------------------------Using minION reads as reference genome for bismark---------------------------------------
 
 #bismark_genome_preparation (in a directory containing only the genome.fasta)
 ~/myprograms/Bismark/bismark_genome_preparation ./
