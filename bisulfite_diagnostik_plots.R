@@ -14,13 +14,28 @@ dev.off()
 ### Methylation level distribution ###
 # set coverage threshold first
 
-pdf("Diagnostik_beta_HCT116_CY.pdf")
 coverage = data[,1] + data[,2]
-cov.ix = coverage > 9
 
+pdf("Diagnostik_beta_CG_HCT116_CY.pdf")
+cov.ix = coverage > 9 & data[,3]=="CG"
 # plot
 beta = data[cov.ix,1] / coverage[cov.ix]
 plot(density(beta))
+# close plot file
+dev.off()
 
+pdf("Diagnostik_beta_CHG_HCT116_CY.pdf")
+cov.ix = coverage > 9 & data[,3]=="CHG"
+# plot
+beta = data[cov.ix,1] / coverage[cov.ix]
+plot(density(beta))
+# close plot file
+dev.off()
+
+pdf("Diagnostik_beta_CHH_HCT116_CY.pdf")
+cov.ix = coverage > 9 & data[,3]=="CHH"
+# plot
+beta = data[cov.ix,1] / coverage[cov.ix]
+plot(density(beta))
 # close plot file
 dev.off()
