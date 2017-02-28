@@ -12,6 +12,6 @@ grep -E -w "\-.*\U" FILTERED.txt  |awk -F "\t" '{print $1"\t"$2-1"\t"$2}' > V_co
 
 # MASKING
 bedtools maskfasta -fi ~/CY/RawData/P007_48_DMSO/HCT116.fasta -bed M_coor.bed -fo HCT116_M.fasta -mc M
-bedtools maskfasta -fi HCT116_M.fasta -bed N_coor.bed -fo HCT116_MU.fasta -mc U
+bedtools maskfasta -fi HCT116_M.fasta -bed U_coor.bed -fo HCT116_MU.fasta -mc U
 bedtools maskfasta -fi HCT116_MU.fasta -bed H_coor.bed -fo HCT116_MUH.fasta -mc H
 bedtools maskfasta -fi HCT116_MUH.fasta -bed V_coor.bed -fo HCT116_MUHV.fasta -mc V
