@@ -1,1 +1,30 @@
+# Reading in bismark cytosine report. <MethylatedCount> <UnmethylatedCount> <Context>
+data = read.table( pipe("zcat combine_hct116_WGBS_1_bismark_bt2_pe.CpG_report.txt.gz|cut -f 4,5,6"), 
+                  colClasses=c("integer", "integer", "character") )
+
+# open plot file
+pdf("Diagnostic_coverage_HCT116_miION_CY.pdf")
+
+### Coverage barplot ###
+coverage = data[,1] + data[,2]
+coverage[coverage>15] = 15
+
+barplot( table(coverage), border=NA, col="darkred", main="Coverage all Cs")
+dev.off()
+### Methylation level distribution ###
+# set coverage threshold first
+
+coverage = data[,1] + data[,2]
+
+pdf("Diagnostic_beta_CG_HCT116_minION_CY.pdf")
+cov.ix = coverage > 9 & data[,3]=="CG"
+# plot
+beta = data[cov.ix,1] / coverage[cov.ix]
+plot(density(beta))
+# close plot file
+dev.off()
+
+
+ 
+
 
