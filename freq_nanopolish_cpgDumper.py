@@ -17,9 +17,7 @@ with open(filename, "r") as file:
                     print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+nb,int(line[1])+nb,float(line[6])*100)
                 if first:
                     print '{}\t{}\t{}\t{}'.format(line[0],line[1],int(line[1]),float(line[6])*100) 
-                    first=False
-
-          
+                    first=False 
         if line[3]==2:
             print '{}\t{}\t{}\t{}'.format(line[0],line[1],int(line[1])+1,float(line[6])*100) 
             print '{}\t{}\t{}\t{}'.format(line[0],int(line[2])+1,int(line[2])+1,float(line[6])*100) 
