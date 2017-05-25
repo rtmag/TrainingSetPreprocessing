@@ -1,0 +1,21 @@
+
+# Extract all reads from a directory of FAST5 files
+nanopolish extract -r --type template ./download_pass > hct116_pass_template_nanopolish.fa
+
+# Align the basecalled reads to a reference genome
+bwa mem -x ont2d -t 50 ../../HCT116_corrected/HCT116.fasta hct116_pass_template_nanopolish.fa > hct116_pass_template_nanopolish_bwa_hct116corrected.sam
+
+samtools view -@ 20 -Sb hct116_pass_template_nanopolish_bwa_hct116corrected.sam | samtools sort -@ 20 - -o hct116_pass_template_nanopolish_bwa_hct116corrected.bam
+
+# Split bam file into forward and reverse
+#Forward
+samtools view -F 2068 hct116_pass_template_nanopolish_bwa_hct116corrected.bam | samtools view -Sb - -o hct116_pass_template_nanopolish_bwa_hct116corrected_forward.bam
+#Reverse
+samtools view -f 16 hct116_pass_template_nanopolish_bwa_hct116corrected.bam | samtools view -Sb - -o hct116_pass_template_nanopolish_bwa_hct116corrected_reverse.bam
+
+# Run the methylation caller
+nanopolish call-methylation -t 60 -r hct116_pass_template_nanopolish.fa -b hct116_pass_template_nanopolish_bwa_hct116corrected_forward.bam -g ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta > hct116_pass_template_nanopolish_bwa_hct116corrected_forward_methylation.tsv
+nanopolish call-methylation -t 60 -r hct116_pass_template_nanopolish.fa -b hct116_pass_template_nanopolish_bwa_hct116corrected_reverse.bam -g ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta > hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation.tsv
+
+python ~/myprograms/nanopolish/scripts/calculate_methylation_frequency.py -c 2.5 -i hct116_pass_template_nanopolish_bwa_hct116corrected_forward_methylation.tsv > hct116_pass_template_nanopolish_bwa_hct116corrected_forward_methylation_freq.tsv
+python ~/myprograms/nanopolish/scripts/calculate_methylation_frequency.py -c 2.5 -i hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation.tsv > hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation_freq.tsv
