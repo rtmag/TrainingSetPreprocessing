@@ -3,7 +3,7 @@ import re
 
 if argv<3:
     print "usage: python script.py mode[forward,reverse] inputFile"
-    break
+    sys.exit()
     
 mode = argv[1] 
 filename = argv[2]
@@ -42,4 +42,4 @@ if mode == "reverse":
                         print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100) 
                         first=False 
             if int(line[3])==1:
-                print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100) 
+                print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100)
