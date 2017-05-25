@@ -1,3 +1,8 @@
+# Note for CY:
+# use the following command to test the output file of this CGdump.py script
+# head -n 1000000 ../../nanopolish/cgdumptest2.txt|awk -F"\t" '{print $1"\t"$2"\t"$2+2}' |bedtools getfasta -fi HCT116.fasta -bed - |grep -v ">"|uniq -c
+
+
 from sys import argv
 import re
 
