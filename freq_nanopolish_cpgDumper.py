@@ -2,15 +2,19 @@ from sys import argv
 import re
 
 if argv<3:
-    print "usage: python script.py mode[forward,reverse] inputFile"
-    sys.exit()
+    sys.exit("usage: python script.py mode[forward,reverse] inputFile")
     
 mode = argv[1] 
 filename = argv[2]
 
 if mode == "forward":
     with open(filename, "r") as file:
+        firstline = True
         for line in file:
+            if firstline:
+                firstline = False
+                break
+                
             line=line.split("\t")
         
             if int(line[3])>1:
@@ -24,11 +28,16 @@ if mode == "forward":
                         print '{}\t{}\t{}\t{}'.format(line[0],line[1],int(line[1]),float(line[6])*100) 
                         first=False 
             if int(line[3])==1:
-                print '{}\t{}\t{}\t{}'.format(line[0],line[1],int(line[1]),float(line[6])*100) 
+                        print '{}\t{}\t{}\t{}'.format(line[0],line[1],int(line[1]),float(line[6])*100) 
 
 if mode == "reverse":
     with open(filename, "r") as file:
+        firstline = True
         for line in file:
+            if firstline:
+                firstline = False
+                break
+                
             line=line.split("\t")
         
             if int(line[3])>1:
@@ -42,4 +51,4 @@ if mode == "reverse":
                         print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100) 
                         first=False 
             if int(line[3])==1:
-                print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100)
+                        print '{}\t{}\t{}\t{}'.format(line[0],int(line[1])+1,int(line[1])+1,float(line[6])*100)
