@@ -13,7 +13,7 @@ if mode == "forward":
         for line in file:
             if firstline:
                 firstline = False
-                break
+                continue
                 
             line=line.split("\t")
         
@@ -36,7 +36,7 @@ if mode == "reverse":
         for line in file:
             if firstline:
                 firstline = False
-                break
+                continue
                 
             line=line.split("\t")
         
