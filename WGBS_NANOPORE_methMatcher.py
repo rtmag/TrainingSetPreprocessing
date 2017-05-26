@@ -13,7 +13,9 @@ WGBS = {}
 with gzip.open(WGBS_file, "r") as file:
     for line in file:
         line=line.split("\t")
-        WGBS[ ( str(line[0]), int(line[1]) ) ] = float(line[3])
+        if (line[3]+line[4])>0:
+          if str(line[5])=="CG"
+             WGBS[ ( str(line[0]), int(line[1]) ) ] = float(line[3](line[3]+line[4]))
     
 file.close()
 
