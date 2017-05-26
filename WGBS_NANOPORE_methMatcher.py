@@ -20,13 +20,13 @@ with gzip.open(WGBS_file, "r") as file:
 file.close()
 
 NANO_file = 'hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation_freq_CGdump.tsv'
-output = open('WGBS_NANOreverse_2.txt', 'w')
+output = open('WGBS_NANOforward_2.txt', 'w')
 
 with open(NANO_file, "r") as file:
     for line in file:
         line = line.rstrip()
         line = line.split("\t")
-        WGBS_meth = WGBS.get( ( str(line[0]), int(line[1]) ) ) or "EMPTY"
+        WGBS_meth = WGBS.get( ( str(line[0]), int(line[1])+1 ) ) or "EMPTY"
         if WGBS_meth != 'EMPTY':
             output.write('{}\t{}\t{}\t{}\n'.format(str(line[0]),int(line[1]),float(WGBS_meth)*100,float(line[3]) ) )
       
