@@ -19,7 +19,7 @@ with gzip.open(WGBS_file, "r") as file:
     
 file.close()
 
-NANO_file = 'hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation_freq_CGdump.tsv'
+NANO_file = 'hct116_pass_template_nanopolish_bwa_hct116corrected_forward_methylation_freq_CGdump.tsv'
 output = open('WGBS_NANOforward_2.txt', 'w')
 
 with open(NANO_file, "r") as file:
@@ -32,4 +32,3 @@ with open(NANO_file, "r") as file:
       
 output.close()
 file.close()
-
