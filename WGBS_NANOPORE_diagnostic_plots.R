@@ -21,8 +21,8 @@ plot(density(rev[,4]),main="Reverse strand Nanopore")
 pdf("figure1.1.pdf", width=5, height=7)
 par(mfrow=c(3,2))
 
-> fwd.cor=cor.test(fwd[,3],fwd$V4)$estimate
-> rev.cor=cor.test(rev[,3],rev$V4)$estimate
+fwd.cor=cor.test(fwd[,3],fwd$V4)$estimate
+rev.cor=cor.test(rev[,3],rev$V4)$estimate
 
 smoothScatter(fwd[,3],fwd[,4],main=paste("Forward strand\nPearson cor:",round(fwd.cor,3)), xlab="WGBS M-Levels",ylab="Nanopore Methylation level",nrpoints=0)
 
