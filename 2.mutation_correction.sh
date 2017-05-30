@@ -122,3 +122,9 @@ java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar -T FastaAlternateReferenceMa
     -R ~/resources/hg38/star/genome.fa  \
     -o /home/rtm/CY/RawData/P007_48_DMSO/HCT116.fasta \
     --variant HCT116_DMSO_48h_filtered_PASS.vcf
+    
+    # SNPs only
+java -Xmx70g -jar ~/myPrograms/GenomeAnalysisTK.jar -T FastaAlternateReferenceMaker \
+    -R ~/resources/hg38/star/genome.fa  \
+    -o /home/rtm/CY/RawData/P007_48_DMSO/HCT116_SNV.fasta \
+    --variant HCT116_DMSO_48h_SNP_filtered_PASS.vcf
