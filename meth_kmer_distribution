@@ -1,0 +1,68 @@
+
+# Extract CG coordinates from data subsets of methmatcher between nanopore and WGBS
+
+filename = '/home/cy/data/minION/hct116_reads/hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation_freq_CGdump_methmatch10.tsv'
+output1 = open('/home/cy/data/minION/hct116_reads/diffless30-fwd.bed', 'w')
+output2 = open('/home/cy/data/minION/hct116_reads/diffbtw30and70-fwd.bed', 'w')
+output3 = open('/home/cy/data/minION/hct116_reads/diffmore70-fwd.bed', 'w')
+
+with open(filename, "r") as file:
+    for line in file:
+        line=line.split("\t")
+        if abs(float(line[2])-float(line[3])) <= 30.0:
+            a = int(line[1]) - 3
+            b = int(line[1]) + 5
+            output1.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n')
+        elif abs(float(line[2])-float(line[3])) > 30.0 and abs(float(line[2])-float(line[3])) < 70.0:
+            a = int(line[1]) - 3
+            b = int(line[1]) + 5
+            output2.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n') 
+        elif abs(float(line[2])-float(line[3])) >= 70:
+            a = int(line[1]) - 3
+            b = int(line[1]) + 5
+            output3.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n')
+
+output1.close()
+output2.close()
+output3.close()
+
+          
+filename = '/home/cy/data/minION/hct116_reads/hct116_pass_template_nanopolish_bwa_hct116corrected_reverse_methylation_freq_CGdump_methmatch10.tsv'
+output1 = open('/home/cy/data/minION/hct116_reads/diffless30-rev.bed', 'w')
+output2 = open('/home/cy/data/minION/hct116_reads/diffbtw30and70-rev.bed', 'w')
+output3 = open('/home/cy/data/minION/hct116_reads/diffmore70-rev.bed', 'w')
+
+with open(filename, "r") as file:
+    for line in file:
+        line=line.split("\t")
+        if abs(float(line[2])-float(line[3])) <= 30.0:
+            a = int(line[1]) - 4
+            b = int(line[1]) + 4
+            output1.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n')
+        elif abs(float(line[2])-float(line[3])) > 30.0 and abs(float(line[2])-float(line[3])) < 70.0:
+            a = int(line[1]) - 4
+            b = int(line[1]) + 4
+            output2.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n') 
+        elif abs(float(line[2])-float(line[3])) >= 70:
+            a = int(line[1]) - 4
+            b = int(line[1]) + 4
+            output3.write(str(line[0]) + '\t' + str(a) + '\t' + str(b) + '\n')
+
+output1.close()
+output2.close()
+output3.close()
+
+# Add "reverse  1 -" to end of each line in reverse for reverse complement later using bedtools
+more diffless30-rev.bed | awk -F"\t" '{print $1"\t"$2"\t"$3"\t""reverse""\t""1""\t""-"}' > diffless30-rev.bed
+more diffbtw30and70-rev.bed | awk -F"\t" '{print $1"\t"$2"\t"$3"\t""reverse""\t""1""\t""-"}' > diffbtw30and70-rev.bed
+more diffmore70-rev.bed | awk -F"\t" '{print $1"\t"$2"\t"$3"\t""reverse""\t""1""\t""-"}' > diffmore70-rev.bed
+
+# Get Kmer fasta using bedtools
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffless30-fwd.bed -s -fo diffless30-fwd_kmer.txt
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffless30-rev.bed -s -fo diffless30-rev_kmer.txt
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffbtw30and70-fwd.bed -s -fo diffbtw30and70-fwd_kmer.txt
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffbtw30and70-rev.bed -s -fo diffbtw30and70-rev_kmer.txt
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffmore70-fwd.bed -s -fo diffmore70-fwd_kmer.txt
+bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffmore70-rev.bed -s -fo diffmore70-rev_kmer.txt
+
+
