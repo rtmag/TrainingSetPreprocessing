@@ -65,4 +65,37 @@ bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diff
 bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffmore70-fwd.bed -s -fo diffmore70-fwd_kmer.txt
 bedtools getfasta -fi ~/data/HCT116_WGBS/HCT116_corrected/HCT116.fasta -bed diffmore70-rev.bed -s -fo diffmore70-rev_kmer.txt
 
+# Generating kmer collection
+import os
+import itertools
 
+bases = ['A','T','G','C']
+k = 3
+kmer3 = [''.join(p) for p in itertools.product(bases, repeat=k)]
+kmer = []
+for i in kmer3:
+    for l in kmer3:
+        kmer.append(i + "CG" + l)
+# Finding missing kmers
+filename = '/home/cy/data/minION/hct116_reads/diffless30-fwd_kmer.txt'
+outputname = '/home/cy/data/minION/hct116_reads/diffless30-fwd_kmer_profile.txt'
+add = []
+kmer_c = os.popen('more ' + filename + ' | grep -v ">" | sort | uniq -c').read().split('\n')
+l = len(kmer_c)
+kmer_c = kmer_c[0:l-1]
+for i in kmer:
+    k = str(kmer_c).find(i)
+    if k == -1:
+        print i
+        add.append(i)
+        
+# Append missing kmers
+for i in add:
+    kmer_c.append('    0 ' + i)
+
+kmer_c = "','".join(kmer_c)
+kmer_c = kmer_c.replace("','", "\n")
+temp = open('/home/cy/data/minION/hct116_reads/temp', 'w')
+temp.write(kmer_c + '\n')
+temp.close()
+os.system("grep -v 'N' /home/cy/data/minION/hct116_reads/temp | sort -k 2 > " + outputname)
